@@ -12,9 +12,9 @@ const ExpenseTracker = () => {
   const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-  const [filter, setFilter] = useState('all'); // 'income', 'expense', or 'all'
-  const [showHistory, setShowHistory] = useState(false); // Toggle transaction history
-  const [showAddForm, setShowAddForm] = useState(false); // Toggle add transaction form
+  const [filter, setFilter] = useState('all');
+  const [showHistory, setShowHistory] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
   const navigate = useNavigate();
 
   // Load transactions from localStorage
@@ -46,7 +46,7 @@ const ExpenseTracker = () => {
     setAmount(0);
     setCategory('');
     setDate(new Date().toISOString().split('T')[0]);
-    setShowAddForm(false); // Collapse the form after adding
+    setShowAddForm(false);
   };
 
   // Delete a transaction
@@ -54,17 +54,34 @@ const ExpenseTracker = () => {
     setTransactions(transactions.filter((transaction) => transaction.id !== id));
   };
 
+  // Edit a transaction
+  const editTransaction = (id, newText, newAmount, newCategory, newDate) => {
+    setTransactions(
+      transactions.map((transaction) =>
+        transaction.id === id
+          ? {
+              ...transaction,
+              text: newText,
+              amount: +newAmount,
+              category: newCategory,
+              date: newDate,
+            }
+          : transaction
+      )
+    );
+  };
+
   // Filter transactions
   const filteredTransactions = transactions.filter((transaction) => {
     if (filter === 'income') return transaction.amount > 0;
     if (filter === 'expense') return transaction.amount < 0;
-    return true; // Show all
+    return true;
   });
 
   // Handle logout
   const handleLogout = () => {
-    localStorage.removeItem('loggedInUser'); // Clear the logged-in user
-    navigate('/login'); // Redirect to the Login page
+    localStorage.removeItem('loggedInUser');
+    navigate('/login');
   };
 
   return (
@@ -106,7 +123,13 @@ const ExpenseTracker = () => {
           >
             {showHistory ? 'Hide History' : 'Show History'}
           </button>
-          {showHistory && <TransactionList transactions={filteredTransactions} deleteTransaction={deleteTransaction} />}
+          {showHistory && (
+            <TransactionList
+              transactions={filteredTransactions}
+              deleteTransaction={deleteTransaction}
+              editTransaction={editTransaction}
+            />
+          )}
         </div>
 
         {/* Add Transaction Form (Collapsible) */}

@@ -25,6 +25,8 @@ const Login = () => {
 
     if (!user) {
       setError('Invalid email/phone or password.');
+      alert('You need to register first!');
+      navigate('/register'); // Redirect to the Register page
       return;
     }
 

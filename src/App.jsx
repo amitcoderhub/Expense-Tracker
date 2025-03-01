@@ -6,7 +6,7 @@ import ExpenseTracker from './components/ExpenseTracker';
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-  return loggedInUser ? children : <Navigate to="/login" />;
+  return loggedInUser ? children : <Navigate to="/register" />;
 };
 
 const App = () => {
@@ -15,6 +15,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route
           path="/expense-tracker"
           element={
