@@ -61,18 +61,19 @@ const ExpenseTracker = () => {
     return true; // Show all
   });
 
-  // Handle back button click
-  const handleBack = () => {
-    navigate(-1); // Go back to the previous page
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('loggedInUser'); // Clear the logged-in user
+    navigate('/login'); // Redirect to the Login page
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-        {/* Back Button */}
+        {/* Logout Button */}
         <button
-          onClick={handleBack}
-          className="mb-4 text-blue-500 hover:text-blue-700 flex items-center"
+          onClick={handleLogout}
+          className="mb-4 text-red-500 hover:text-red-700 flex items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -82,11 +83,11 @@ const ExpenseTracker = () => {
           >
             <path
               fillRule="evenodd"
-              d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+              d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
               clipRule="evenodd"
             />
           </svg>
-          Back
+          Logout
         </button>
 
         <h1 className="text-2xl font-bold text-center mb-4">Expense Tracker</h1>

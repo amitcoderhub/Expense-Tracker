@@ -1,13 +1,28 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
+import Register from './components/Register';
 import ExpenseTracker from './components/ExpenseTracker';
+
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+  return loggedInUser ? children : <Navigate to="/login" />;
+};
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/expense-tracker" element={<ExpenseTracker />} />
+        <Route path="/" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/expense-tracker"
+          element={
+            <ProtectedRoute>
+              <ExpenseTracker />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );
