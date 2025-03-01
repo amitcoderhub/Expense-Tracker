@@ -29,24 +29,8 @@ const ExpenseTracker = () => {
   }, [transactions]);
 
   // Add a new transaction
-  const addTransaction = (e) => {
-    e.preventDefault();
-    if (!text || !amount || !category || !date) return;
-
-    const newTransaction = {
-      id: Math.floor(Math.random() * 1000000),
-      text,
-      amount: +amount,
-      category,
-      date,
-    };
-
-    setTransactions([...transactions, newTransaction]);
-    setText('');
-    setAmount(0);
-    setCategory('');
-    setDate(new Date().toISOString().split('T')[0]);
-    setShowAddForm(false);
+  const addTransaction = (transaction) => {
+    setTransactions([...transactions, transaction]);
   };
 
   // Delete a transaction
