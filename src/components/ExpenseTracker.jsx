@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ThemeContext } from '../context/ThemeContext';
 import BalanceSummary from './BalanceSummary';
 import TransactionList from './TransactionList';
 import AddTransactionForm from './AddTransactionForm';
@@ -15,6 +16,7 @@ const ExpenseTracker = () => {
   const [filter, setFilter] = useState('all');
   const [showHistory, setShowHistory] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
+  const { isDarkTheme, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
 
   // Load transactions from localStorage
@@ -69,8 +71,16 @@ const ExpenseTracker = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+    <div className={`min-h-screen flex items-center justify-center p-4 ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
+      <div className={`p-6 rounded-lg shadow-md w-full max-w-md ${isDarkTheme ? 'bg-gray-800' : 'bg-white'}`}>
+        {/* Theme Toggle Button */}
+        <button
+          onClick={toggleTheme}
+          className="absolute top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700"
+        >
+          {isDarkTheme ? '🌞' : '🌙'}
+        </button>
+
         {/* Logout Button */}
         <button
           onClick={handleLogout}

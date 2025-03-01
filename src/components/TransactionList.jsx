@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { ThemeContext } from '../context/ThemeContext';
 
 const TransactionList = ({ transactions, deleteTransaction, editTransaction }) => {
   const [editingId, setEditingId] = useState(null);
@@ -6,6 +7,7 @@ const TransactionList = ({ transactions, deleteTransaction, editTransaction }) =
   const [editedAmount, setEditedAmount] = useState(0);
   const [editedCategory, setEditedCategory] = useState('');
   const [editedDate, setEditedDate] = useState('');
+  const { isDarkTheme } = useContext(ThemeContext);
 
   const handleEdit = (transaction) => {
     setEditingId(transaction.id);
@@ -37,19 +39,19 @@ const TransactionList = ({ transactions, deleteTransaction, editTransaction }) =
                 value={editedText}
                 onChange={(e) => setEditedText(e.target.value)}
                 placeholder="Text"
-                className="w-full p-1 border rounded-lg mb-2"
+                className={`w-full p-1 border rounded-lg mb-2 ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
               />
               <input
                 type="number"
                 value={editedAmount}
                 onChange={(e) => setEditedAmount(e.target.value)}
                 placeholder="Amount"
-                className="w-full p-1 border rounded-lg mb-2"
+                className={`w-full p-1 border rounded-lg mb-2 ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
               />
               <select
                 value={editedCategory}
                 onChange={(e) => setEditedCategory(e.target.value)}
-                className="w-full p-1 border rounded-lg mb-2"
+                className={`w-full p-1 border rounded-lg mb-2 ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
               >
                 <option value="" disabled>Select Category</option>
                 <option value="Food">Food</option>
@@ -62,7 +64,7 @@ const TransactionList = ({ transactions, deleteTransaction, editTransaction }) =
                 type="date"
                 value={editedDate}
                 onChange={(e) => setEditedDate(e.target.value)}
-                className="w-full p-1 border rounded-lg mb-2"
+                className={`w-full p-1 border rounded-lg mb-2 ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
               />
               {/* Save Button */}
               <button
@@ -76,16 +78,16 @@ const TransactionList = ({ transactions, deleteTransaction, editTransaction }) =
             <>
               {/* Display Transaction Details */}
               <div className="flex justify-between">
-                <span>{transaction.text}</span>
+                <span className={isDarkTheme ? 'text-white' : 'text-black'}>{transaction.text}</span>
                 <span className={`font-semibold ${
                   transaction.amount < 0 ? 'text-red-600' : 'text-green-600'
                 }`}>
                   ${Math.abs(transaction.amount).toFixed(2)}
                 </span>
               </div>
-              <div className="flex justify-between text-sm text-gray-600">
-                <span>{transaction.category}</span>
-                <span>{transaction.date}</span>
+              <div className="flex justify-between text-sm">
+                <span className={isDarkTheme ? 'text-white' : 'text-black'}>{transaction.category}</span>
+                <span className={isDarkTheme ? 'text-white' : 'text-black'}>{transaction.date}</span>
               </div>
               {/* Edit and Delete Buttons */}
               <div className="flex justify-end space-x-2 mt-2">

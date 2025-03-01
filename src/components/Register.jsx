@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ThemeContext } from '../context/ThemeContext';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -7,6 +8,7 @@ const Register = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { isDarkTheme, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
 
   const handleRegister = (e) => {
@@ -35,52 +37,60 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+    <div className={`min-h-screen flex items-center justify-center p-4 ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
+      <div className={`p-6 rounded-lg shadow-md w-full max-w-md ${isDarkTheme ? 'bg-gray-800' : 'bg-white'}`}>
+        {/* Theme Toggle Button */}
+        <button
+          onClick={toggleTheme}
+          className="absolute top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700"
+        >
+          {isDarkTheme ? '🌞' : '🌙'}
+        </button>
+
         <h1 className="text-2xl font-bold text-center mb-4">Register</h1>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block font-medium">Name</label>
+            <label htmlFor="name" className={`block font-medium ${isDarkTheme ? 'text-white' : 'text-black'}`}>Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter your name..."
-              className="w-full p-2 border rounded-lg"
+              className={`w-full p-2 border rounded-lg ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
               required
             />
           </div>
           <div>
-            <label htmlFor="email" className="block font-medium">Email</label>
+            <label htmlFor="email" className={`block font-medium ${isDarkTheme ? 'text-white' : 'text-black'}`}>Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email..."
-              className="w-full p-2 border rounded-lg"
+              className={`w-full p-2 border rounded-lg ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
               required
             />
           </div>
           <div>
-            <label htmlFor="phone" className="block font-medium">Phone</label>
+            <label htmlFor="phone" className={`block font-medium ${isDarkTheme ? 'text-white' : 'text-black'}`}>Phone</label>
             <input
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="Enter your phone number..."
-              className="w-full p-2 border rounded-lg"
+              className={`w-full p-2 border rounded-lg ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
               required
             />
           </div>
           <div>
-            <label htmlFor="password" className="block font-medium">Password</label>
+            <label htmlFor="password" className={`block font-medium ${isDarkTheme ? 'text-white' : 'text-black'}`}>Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password..."
-              className="w-full p-2 border rounded-lg"
+              className={`w-full p-2 border rounded-lg ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
               required
             />
           </div>
@@ -91,7 +101,7 @@ const Register = () => {
             Register
           </button>
         </form>
-        <p className="mt-4 text-center">
+        <p className={`mt-4 text-center ${isDarkTheme ? 'text-white' : 'text-black'}`}>
           Already have an account?{' '}
           <button
             onClick={() => navigate('/login')}
