@@ -13,31 +13,26 @@ const AddTransactionForm = ({
   addTransaction,
 }) => {
   const [isExpense, setIsExpense] = useState(false); // Track if it's an expense
-  const [customCategory, setCustomCategory] = useState(''); // Custom category for "Other"
   const { isDarkTheme } = useContext(ThemeContext);
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent form refresh
-    const transactionAmount = isExpense ? -Math.abs(amount) : Math.abs(amount);
+    e.preventDefault(); // Prevent the form from refreshing the page
+    const transactionAmount = isExpense ? -Math.abs(amount) : Math.abs(amount); // Ensure expense is negative
     addTransaction({
       text,
       amount: transactionAmount,
-      category: category === 'Other' ? customCategory : category,
+      category,
       date,
     });
-    // Clear form fields
+    // Clear form fields after submission
     setText('');
     setAmount(0);
     setCategory('');
-    setCustomCategory('');
     setDate(new Date().toISOString().split('T')[0]);
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 p-4 rounded-lg shadow-md max-w-md mx-auto bg-gradient-to-br from-blue-100 to-purple-200 dark:from-gray-800 dark:to-gray-900"
-    >
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label htmlFor="text" className={`block font-medium ${isDarkTheme ? 'text-white' : 'text-black'}`}>Description</label>
         <input
@@ -45,11 +40,10 @@ const AddTransactionForm = ({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Enter description..."
-          className={`w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
+          className={`w-full p-2 border rounded-lg ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
           required
         />
       </div>
-
       <div>
         <label htmlFor="amount" className={`block font-medium ${isDarkTheme ? 'text-white' : 'text-black'}`}>Amount</label>
         <input
@@ -57,17 +51,16 @@ const AddTransactionForm = ({
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="Enter amount..."
-          className={`w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
+          className={`w-full p-2 border rounded-lg ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
           required
         />
       </div>
-
       <div>
         <label htmlFor="category" className={`block font-medium ${isDarkTheme ? 'text-white' : 'text-black'}`}>Category</label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className={`w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
+          className={`w-full p-2 border rounded-lg ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
           required
         >
           <option value="" disabled>Select Category</option>
@@ -77,37 +70,25 @@ const AddTransactionForm = ({
           <option value="Entertainment">Entertainment</option>
           <option value="Other">Other</option>
         </select>
-        {category === 'Other' && (
-          <input
-            type="text"
-            value={customCategory}
-            onChange={(e) => setCustomCategory(e.target.value)}
-            placeholder="Enter custom category..."
-            className={`w-full p-2 mt-2 border rounded-lg focus:ring-2 focus:ring-blue-400 ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
-            required
-          />
-        )}
       </div>
-
       <div>
         <label htmlFor="date" className={`block font-medium ${isDarkTheme ? 'text-white' : 'text-black'}`}>Date</label>
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className={`w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
+          className={`w-full p-2 border rounded-lg ${isDarkTheme ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}
           required
         />
       </div>
-
       <div>
         <label className={`block font-medium ${isDarkTheme ? 'text-white' : 'text-black'}`}>Type</label>
         <div className="flex justify-center space-x-4">
           <button
             type="button"
             onClick={() => setIsExpense(false)}
-            className={`px-4 py-2 rounded-lg transition-colors duration-300 ${
-              !isExpense ? 'bg-blue-500 text-white' : 'bg-gray-300 dark:bg-gray-600'
+            className={`px-4 py-2 rounded-lg ${
+              !isExpense ? 'bg-blue-500 text-white' : 'bg-gray-200'
             }`}
           >
             Income
@@ -115,18 +96,17 @@ const AddTransactionForm = ({
           <button
             type="button"
             onClick={() => setIsExpense(true)}
-            className={`px-4 py-2 rounded-lg transition-colors duration-300 ${
-              isExpense ? 'bg-red-500 text-white' : 'bg-gray-300 dark:bg-gray-600'
+            className={`px-4 py-2 rounded-lg ${
+              isExpense ? 'bg-red-500 text-white' : 'bg-gray-200'
             }`}
           >
             Expense
           </button>
         </div>
       </div>
-
       <button
         type="submit"
-        className="w-full bg-green-500 text-white p-2 rounded-lg hover:bg-green-600 transition-transform transform hover:scale-105"
+        className="w-full bg-green-500 text-white p-2 rounded-lg hover:bg-green-600"
       >
         Add Transaction
       </button>
