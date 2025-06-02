@@ -57,6 +57,7 @@ const TransactionList = ({ transactions, deleteTransaction, editTransaction }) =
                 <option value="Food">Food</option>
                 <option value="Rent">Rent</option>
                 <option value="Salary">Salary</option>
+                <option value="Tuition fee">Tuition fee</option>
                 <option value="Entertainment">Entertainment</option>
                 <option value="Other">Other</option>
               </select>
